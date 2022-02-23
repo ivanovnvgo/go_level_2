@@ -10,7 +10,7 @@ import (
 func WorkerPool() {
 	nGoroutine := 0 //Число запущенных горутин
 	number := 0     //Число, которое будем увеличивать на 1 в каждой запущенной горутине
-	pool := make(chan int)
+	pool := make(chan int, 1000)
 	//Запускаем 1000 горутин
 	for i := 1; i <= 1000; i++ {
 		go send1ToChannel(pool, &number)
