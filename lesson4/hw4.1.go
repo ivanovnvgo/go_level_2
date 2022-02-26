@@ -35,10 +35,9 @@ func WorkerPool() {
 }
 
 //send1ToChannel записывает в канал значение 1 и увеличивает принятое число на 1
-func send1ToChannel(ch1 chan int, number *int) *int {
+func send1ToChannel(ch1 chan int, number *int)  {
 	ch1 <- 1 //Запущена дна горутина - в канале записана одна единица, запущена тысяча горутин - в канале записана тысяча единиц
 	*number++
-	return number
 }
 func main() {
 	WorkerPool()
