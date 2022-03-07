@@ -1,20 +1,18 @@
 package reflection
 
-//package fibonacci
-
 import (
 	"github.com/stretchr/testify/require"
 	"testing"
 )
 
 // Use testify
-func TestReflectionExample(t *testing.T) {
+func TestReflection(t *testing.T) {
 
 	type In struct {
 		Key int
 	}
 
-	var structure In
+	var Structure In
 
 	valuesMap := map[string]interface{}{
 		"rsc": 3711,
@@ -22,7 +20,7 @@ func TestReflectionExample(t *testing.T) {
 		"gri": 1908,
 		"adg": 912,
 	}
-	var x = structure.Reflection(valuesMap)
+	var x = Reflection(valuesMap, Structure)
 	var y error = nil
 	require.Equal(t, x, y, "The two errors should be the same.")
 }
