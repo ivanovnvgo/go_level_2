@@ -1,6 +1,7 @@
 package scandirectory
 
 import (
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -65,4 +66,22 @@ func PrintNameDoubleFiles() error {
 		}
 	}
 	return nil
+}
+
+//ReadFlagDeleteDoubleFile принимает от пользователя флаги:
+//путь к нужной директории и возможность удаления повторяющегося файла
+func ReadFlagDeleteDoubleFile() (string, string) {
+	var pathDir string
+	var rmFile string
+	//var pathDirectory = os.Args[1:2] //запись аргумента командной строки - читаем путь к нужной директории
+	//for i := 0; i < len(pathDirectory); i++ {
+	//	pathDir = pathDir + pathDirectory[i]
+	//}
+	var pFlag = flag.String("pFlag", "/home/user/go/src/go_level_2/go_level_2/lesson8/scandirectory", "путь к нужной директории")
+	var rFlag = flag.String("rFlag", "n", "флаг удаления повторяющегося файла")
+	flag.Parse()
+	pathDir = *pFlag
+	rmFile = *rFlag
+	fmt.Printf("флаг удаления повторяющегося файла установлен: %s\n", rmFile)
+	return pathDir, rmFile
 }
