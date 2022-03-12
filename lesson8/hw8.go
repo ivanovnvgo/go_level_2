@@ -25,6 +25,7 @@ package main
 import (
 	"go_level_2/go_level_2/lesson8/scandirectory"
 	"log"
+	"time"
 )
 
 var err error
@@ -35,16 +36,25 @@ func main() {
 	//for i := 0; i < len(pathDirectory); i++ {
 	//	path = path + pathDirectory[i]
 	//}
+
+	var ch = make(chan string)
 	//читаем путь к нужной директории, читаем флаг возможности удаления повторяющегося файла
-	path, rm := scandirectory.ReadFlagDeleteDoubleFile()
-	_ = rm //флаг удаления повторяющегося файла пока не используем
-
-	err = scandirectory.ScanDirectory(path) //чтение всех файлов в исходной директории и во вложенных в нее директориях
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = scandirectory.PrintNameDoubleFiles() //вывод на печать повторяющихся файлов
+	go func() {
+		path, rm := scandirectory.ReadFlagDeleteDoubleFile()
+		_ = rm //флаг удаления повторяющегося файла пока не используем
+		ch <- path
+	}()
+	//чтение всех файлов в исходной директории и во вложенных в нее директориях
+	go func() {
+		path := <-ch
+		err = scandirectory.ScanDirectory(path)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}()
+	time.Sleep(1 * time.Millisecond)
+	//вывод на печать повторяющихся файлов
+	err = scandirectory.PrintNameDoubleFiles()
 	if err != nil {
 		log.Fatal(err)
 	}
