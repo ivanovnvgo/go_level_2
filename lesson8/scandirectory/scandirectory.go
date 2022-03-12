@@ -1,3 +1,5 @@
+// Package scandirectory принимает на вход флаг с путем директории для сканирования и флаг на удаление дублирующихся файлов.
+// выводит список дублирующихся файлов
 package scandirectory
 
 import (
@@ -18,7 +20,7 @@ var (
 	j        int
 )
 
-//ScanDirectory рекурсивная функция, которая получает путь для обработки всех файлов во всех вложенных директориях
+// ScanDirectory рекурсивная функция, которая получает путь для обработки всех файлов во всех вложенных директориях
 func ScanDirectory(path string) error {
 	//fmt.Printf("current directory: %T %s\n", path, path) // печать текущей директории
 	files, err := ioutil.ReadDir(path) //получаем слайс с содержимым текущей директории
@@ -45,7 +47,7 @@ func ScanDirectory(path string) error {
 	return nil
 }
 
-//PrintNameDoubleFiles находит в карте дублирующиеся файлы и выводит их на печать
+// PrintNameDoubleFiles находит в карте дублирующиеся файлы и выводит их на печать
 func PrintNameDoubleFiles() error {
 	for i := 0; i < len(filesMap); i++ {
 		a, err := os.Stat(filesMap[i])
@@ -60,16 +62,16 @@ func PrintNameDoubleFiles() error {
 				return err
 			}
 			if a.Name() == b.Name() && a.Size() == b.Size() {
-				fmt.Println("duplicate files: ")
-				fmt.Println(filesMap[j], " = ", filesMap[i])
+				fmt.Println("duplicate files:")
+				fmt.Printf("%s = %s\n", filesMap[j], filesMap[i])
 			}
 		}
 	}
 	return nil
 }
 
-//ReadFlagDeleteDoubleFile принимает от пользователя флаги:
-//путь к нужной директории и возможность удаления повторяющегося файла
+// ReadFlagDeleteDoubleFile принимает от пользователя флаги:
+// путь к нужной директории и возможность удаления повторяющегося файла
 func ReadFlagDeleteDoubleFile() (string, string) {
 	var pathDir string
 	var rmFile string
@@ -83,5 +85,6 @@ func ReadFlagDeleteDoubleFile() (string, string) {
 	pathDir = *pFlag
 	rmFile = *rFlag
 	fmt.Printf("флаг удаления повторяющегося файла установлен: %s\n", rmFile)
+	fmt.Printf("сканируем директорию %s\n", pathDir)
 	return pathDir, rmFile
 }
